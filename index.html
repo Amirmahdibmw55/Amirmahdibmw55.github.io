@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سایت ساده من</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 10px #aaa;
+      width: 90%;
+      max-width: 400px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    .toggle {
+      margin-top: 10px;
+      text-align: center;
+      color: #555;
+      cursor: pointer;
+    }
+    #msg {
+      margin-top: 10px;
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 id="formTitle">ثبت‌نام</h2>
+    <input type="text" id="username" placeholder="نام کاربری">
+    <input type="password" id="password" placeholder="رمز عبور">
+    <button onclick="handle()">ادامه</button>
+    <div class="toggle" onclick="toggleForm()">رفتن به ورود/ثبت‌نام</div>
+    <div id="msg"></div>
+  </div>
+
+  <script>
+    let isLogin = false;
+
+    function toggleForm() {
+      isLogin = !isLogin;
+      document.getElementById("formTitle").innerText = isLogin ? "ورود" : "ثبت‌نام";
+      document.getElementById("msg").innerText = "";
+    }
+
+    function handle() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (!user || !pass) {
+        alert("همه فیلدها را پر کنید");
+        return;
+      }
+
+      if (isLogin) {
+        const savedPass = localStorage.getItem("user_" + user);
+        if (savedPass === pass) {
+          document.getElementById("msg").innerText = "✅ ورود موفق بود!";
+        } else {
+          document.getElementById("msg").innerText = "❌ نام کاربری یا رمز اشتباهه";
+        }
+      } else {
+        localStorage.setItem("user_" + user, pass);
+        document.getElementById("msg").innerText = "✅ ثبت‌نام با موفقیت انجام شد!";
+      }
+    }
+  </script>
+</body>
+</html>
